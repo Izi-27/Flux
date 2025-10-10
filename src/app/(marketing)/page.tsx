@@ -1,7 +1,6 @@
-'use client'
 import { Hero, Features, HowItWorks, Stats, CTA } from "@/components/landing";
 
-export default function Home() {
+export default function MarketingPage() {
   return (
     <>
       <Hero />
