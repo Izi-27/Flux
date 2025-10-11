@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { Web3Provider } from "@/components/providers/Web3Provider";
+import { Web3Provider } from "@/components/providers/web3-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { FloatingOrbs, WaveBackground } from "@/components/ui/background";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,11 +26,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Web3Provider>{children}</Web3Provider>
+        <ThemeProvider defaultTheme="system">
+          <Web3Provider>
+            {/* <FloatingOrbs /> */}
+            {/* <WaveBackground /> */}
+            {children}
+          </Web3Provider>
+        </ThemeProvider>
       </body>
     </html>
   );

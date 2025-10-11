@@ -1,13 +1,13 @@
 "use client";
 
 import { http } from "wagmi";
-import { mainnet, sepolia } from "wagmi/chains";
+import { polygon, polygonMumbai } from "wagmi/chains";
 import { injected, metaMask, safe, walletConnect } from 'wagmi/connectors'
 
-const projectId = '<WALLETCONNECT_PROJECT_ID>'
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'YOUR_PROJECT_ID_HERE'
 
 export const wagmiConfig = {
-  chains: [mainnet, sepolia],
+  chains: [polygon, polygonMumbai],
     connectors: [
     injected(),
     walletConnect({ projectId }),
@@ -15,7 +15,7 @@ export const wagmiConfig = {
     safe(),
   ],
   transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
+    [polygon.id]: http(),
+    [polygonMumbai.id]: http(),
   },
 } as const;

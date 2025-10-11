@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(var(--theme-background));
+  --foreground: hsl(var(--theme-foreground));
+  --accent: hsl(var(--theme-accent));
+  --accent-2: hsl(var(--theme-accent-2));
+  --muted: hsl(var(--theme-background) / 0.1);
+  --muted-foreground: hsl(var(--theme-foreground) / 0.5);
+  --border: hsl(var(--theme-accent) / 0.1);
+}
+
+.dark {
+  color-scheme: dark;
+  --background: 0 0% 0%;
+  --foreground: 0 0% 100%;
+  --accent: 15 100% 50%;
+  --accent-2: 25 100% 50%;
+}
+
+.light {
+  color-scheme: light;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --accent: 15 100% 50%;
+  --accent-2: 25 100% 50%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.bg-gradient-brand {
+  @apply bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500;
+}
+
+.text-gradient-brand {
+  @apply bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent;
+}
+
+.border-gradient {
+  @apply border border-red-500/10;
+}
+
+.bg-glass {
+  @apply bg-black/20 backdrop-blur-xl;
+}
+
+.hover-accent {
+  @apply hover:bg-red-500/10 transition-colors;
+}
+
+/* Animations */
+.animate-glow {
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    filter: brightness(1);
+  }
+  to {
+    filter: brightness(1.2);
+  }
+}

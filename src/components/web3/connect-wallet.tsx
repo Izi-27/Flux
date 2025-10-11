@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { formatAddress } from "@/lib/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
@@ -32,7 +32,11 @@ export function ConnectWallet() {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} variant="gradient">
+                  <Button 
+                    onClick={openConnectModal} 
+                    variant="gradient"
+                    className="hover:animate-pulse"
+                  >
                     Connect Wallet
                   </Button>
                 );

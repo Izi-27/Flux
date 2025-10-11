@@ -1,234 +1,192 @@
 "use client";
 
-import { Card } from "@/components/ui/Card";
-import { useWallet } from "@/hooks/useWallet";
-import { formatAmount, formatPercentage } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card";
 import {
-  Area,
-  AreaChart,
-  ResponsiveContainer,
-  Tooltip,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
+  Tooltip,
+  ResponsiveContainer,
 } from "recharts";
+import { Activity, TrendingUp, DollarSign, Users } from "lucide-react";
 
-// Sample data - replace with real data from your backend
-const performanceData = Array.from({ length: 30 }, (_, i) => ({
-  date: new Date(
-    Date.now() - (29 - i) * 24 * 60 * 60 * 1000
-  ).toLocaleDateString(),
-  value: 1000 + Math.random() * 500,
-}));
-
-const stats = [
-  {
-    name: "Total Value Locked",
-    value: "$24,685.00",
-    change: "+12.3%",
-    isPositive: true,
-  },
-  {
-    name: "Current APY",
-    value: "8.45%",
-    change: "+2.1%",
-    isPositive: true,
-  },
-  {
-    name: "Total Earnings",
-    value: "$1,245.00",
-    change: "+$145.00",
-    isPositive: true,
-  },
-  {
-    name: "Active Agents",
-    value: "2",
-    change: "No change",
-    isPositive: null,
-  },
+const data = [
+  { name: "Jan", value: 400 },
+  { name: "Feb", value: 300 },
+  { name: "Mar", value: 600 },
+  { name: "Apr", value: 800 },
+  { name: "May", value: 500 },
+  { name: "Jun", value: 900 },
 ];
 
-const recentActivity = [
+const statsCards = [
   {
-    type: "DEPOSIT",
-    amount: "1,000 USDC",
-    timestamp: "2 hours ago",
-    protocol: "Aave",
-    apy: "4.5%",
+    title: "Total Value Locked",
+    value: "$1.2M",
+    change: "+12.5%",
+    icon: DollarSign,
+    color: "from-orange-500 to-red-500",
   },
   {
-    type: "WITHDRAW",
-    amount: "500 USDC",
-    timestamp: "1 day ago",
-    protocol: "Compound",
-    apy: "3.8%",
+    title: "Active Agents",
+    value: "245",
+    change: "+5.2%",
+    icon: Users,
+    color: "from-blue-500 to-purple-500",
   },
   {
-    type: "REBALANCE",
-    amount: "2,500 USDC",
-    timestamp: "2 days ago",
-    protocol: "Curve",
-    apy: "6.2%",
+    title: "Total Trades",
+    value: "1.5K",
+    change: "+8.1%",
+    icon: Activity,
+    color: "from-green-500 to-emerald-500",
+  },
+  {
+    title: "Profit/Loss",
+    value: "+$50.2K",
+    change: "+15.3%",
+    icon: TrendingUp,
+    color: "from-yellow-500 to-orange-500",
   },
 ];
 
 export default function DashboardPage() {
-  const { isConnected, formattedAddress } = useWallet();
-
-  if (!isConnected) {
-    return (
-      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center">
-        <Card variant="glass" className="p-6 text-center">
-          <h2 className="mb-4 text-xl font-semibold">
-            Connect your wallet to view your dashboard
-          </h2>
-          <p className="text-gray-400">
-            You need to connect your wallet to see your portfolio and agent
-            status.
-          </p>
-        </Card>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-6">
-      {/* Stats */}
-      <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
+    <div className="space-y-8 p-8">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {statsCards.map((stat, index) => (
           <motion.div
-            key={stat.name}
+            key={stat.title}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ delay: index * 0.1 }}
           >
-            <Card variant="glass" className="p-6">
-              <h3 className="text-sm font-medium text-gray-400">{stat.name}</h3>
-              <p className="mt-2 text-2xl font-semibold">{stat.value}</p>
-              {stat.change && (
-                <p
-                  className={`mt-1 text-sm ${
-                    stat.isPositive === null
-                      ? "text-gray-400"
-                      : stat.isPositive
-                      ? "text-green-500"
-                      : "text-red-500"
-                  }`}
+            <Card className="p-6 bg-gradient-to-br bg-opacity-10 dark:bg-opacity-10 backdrop-blur-lg border border-gray-200 dark:border-gray-800">
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {stat.title}
+                  </p>
+                  <h3
+                    className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}
+                  >
+                    {stat.value}
+                  </h3>
+                  <p className="text-sm font-medium text-green-500">
+                    {stat.change}
+                  </p>
+                </div>
+                <div
+                  className={`p-3 rounded-full bg-gradient-to-r ${stat.color} bg-opacity-10`}
                 >
-                  {stat.change}
-                </p>
-              )}
+                  <stat.icon className="h-6 w-6 text-white" />
+                </div>
+              </div>
             </Card>
           </motion.div>
         ))}
       </div>
 
-      {/* Chart */}
+      {/* Main Chart */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
-        className="mb-8"
+        transition={{ delay: 0.4 }}
       >
-        <Card variant="glass" className="p-6">
-          <h3 className="mb-6 text-lg font-medium">Portfolio Value</h3>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={performanceData}>
-                <defs>
-                  <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop
-                      offset="5%"
-                      stopColor="rgb(34, 197, 94)"
-                      stopOpacity={0.3}
-                    />
-                    <stop
-                      offset="95%"
-                      stopColor="rgb(34, 197, 94)"
-                      stopOpacity={0}
-                    />
-                  </linearGradient>
-                </defs>
-                <XAxis
-                  dataKey="date"
-                  stroke="#4b5563"
-                  fontSize={12}
-                  tickLine={false}
-                />
-                <YAxis
-                  stroke="#4b5563"
-                  fontSize={12}
-                  tickLine={false}
-                  tickFormatter={(value) => `$${formatAmount(value)}`}
-                />
-                <Tooltip
-                  content={({ active, payload }) => {
-                    if (!active || !payload?.length) return null;
-                    return (
-                      <div className="rounded-lg border border-white/10 bg-black/90 p-3 backdrop-blur-lg">
-                        <p className="font-medium">
-                          ${formatAmount(payload[0].value)}
-                        </p>
-                        <p className="text-sm text-gray-400">
-                          {payload[0].payload.date}
-                        </p>
-                      </div>
-                    );
-                  }}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="value"
-                  stroke="rgb(34, 197, 94)"
-                  fill="url(#gradient)"
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+        <Card className="p-6 h-[400px] bg-gradient-to-br from-black/5 to-black/10 dark:from-white/5 dark:to-white/10 backdrop-blur-lg border border-gray-200 dark:border-gray-800">
+          <h2 className="text-xl font-semibold mb-6">Portfolio Performance</h2>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={data}>
+              <XAxis dataKey="name" stroke="#888888" />
+              <YAxis stroke="#888888" />
+              <Tooltip />
+              <Line
+                type="monotone"
+                dataKey="value"
+                stroke="url(#gradient)"
+                strokeWidth={2}
+                dot={false}
+              />
+              <defs>
+                <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#ff6b6b" />
+                  <stop offset="100%" stopColor="#ffa07a" />
+                </linearGradient>
+              </defs>
+            </LineChart>
+          </ResponsiveContainer>
         </Card>
       </motion.div>
 
-      {/* Recent Activity */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.4 }}
-      >
-        <Card variant="glass" className="overflow-hidden">
-          <h3 className="border-b border-white/10 p-6 text-lg font-medium">
-            Recent Activity
-          </h3>
-          <div className="divide-y divide-white/10">
-            {recentActivity.map((activity, i) => (
-              <div key={i} className="flex items-center justify-between p-6">
-                <div>
-                  <div className="flex items-center gap-3">
-                    <div
-                      className={`rounded-full px-3 py-1 text-xs font-medium ${
-                        activity.type === "DEPOSIT"
-                          ? "bg-green-500/20 text-green-500"
-                          : activity.type === "WITHDRAW"
-                          ? "bg-red-500/20 text-red-500"
-                          : "bg-blue-500/20 text-blue-500"
-                      }`}
-                    >
-                      {activity.type}
+      {/* Activity Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <Card className="p-6 bg-gradient-to-br from-black/5 to-black/10 dark:from-white/5 dark:to-white/10 backdrop-blur-lg border border-gray-200 dark:border-gray-800">
+            <h2 className="text-xl font-semibold mb-4">Recent Activity</h2>
+            <div className="space-y-4">
+              {[1, 2, 3].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between p-4 rounded-lg bg-white/5 dark:bg-black/5"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center">
+                      <Activity className="h-5 w-5 text-white" />
                     </div>
-                    <span className="font-medium">{activity.amount}</span>
+                    <div>
+                      <p className="font-medium">Agent #123 Trade</p>
+                      <p className="text-sm text-gray-500">2 minutes ago</p>
+                    </div>
                   </div>
-                  <p className="mt-1 text-sm text-gray-400">
-                    {activity.timestamp}
-                  </p>
+                  <span className="text-green-500">+$1,234</span>
                 </div>
-                <div className="text-right">
-                  <p className="font-medium">{activity.protocol}</p>
-                  <p className="text-sm text-primary-500">{activity.apy} APY</p>
+              ))}
+            </div>
+          </Card>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.6 }}
+        >
+          <Card className="p-6 bg-gradient-to-br from-black/5 to-black/10 dark:from-white/5 dark:to-white/10 backdrop-blur-lg border border-gray-200 dark:border-gray-800">
+            <h2 className="text-xl font-semibold mb-4">
+              Top Performing Agents
+            </h2>
+            <div className="space-y-4">
+              {[1, 2, 3].map((_, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between p-4 rounded-lg bg-white/5 dark:bg-black/5"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="h-10 w-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                      <Users className="h-5 w-5 text-white" />
+                    </div>
+                    <div>
+                      <p className="font-medium">Yield Optimizer #A{i + 1}</p>
+                      <p className="text-sm text-gray-500">
+                        24h Return: +15.2%
+                      </p>
+                    </div>
+                  </div>
+                  <button className="px-4 py-2 rounded-lg bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm">
+                    Deploy
+                  </button>
                 </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </motion.div>
+              ))}
+            </div>
+          </Card>
+        </motion.div>
+      </div>
     </div>
   );
 }

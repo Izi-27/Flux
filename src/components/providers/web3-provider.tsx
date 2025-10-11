@@ -6,9 +6,10 @@ import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import { useState } from "react";
 import { wagmiConfig } from "@/config/wagmi";
+import { customTheme } from "@/config/rainbowkit";
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient();
   const [config] = useState(() =>
     createConfig({
       ...wagmiConfig,
@@ -19,7 +20,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   return (
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>{children}</RainbowKitProvider>
+        <RainbowKitProvider theme={customTheme}>{children}</RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   );
