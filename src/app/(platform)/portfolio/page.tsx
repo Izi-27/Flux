@@ -114,7 +114,7 @@ export default function PortfolioPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
         >
-          <Card className="p-6 bg-black/50 border-orange-500/20">
+          <Card className="p-6" variant="glass" hover="lift">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-gray-400">Total Value</p>
@@ -154,7 +154,7 @@ export default function PortfolioPage() {
           transition={{ delay: 0.2 }}
           className="sm:col-span-2 lg:col-span-2"
         >
-          <Card className="p-6 bg-black/50 border-orange-500/20">
+          <Card className="p-6" variant="glass" hover="lift">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-lg font-semibold">Asset Distribution</h3>
               <div className="p-2 rounded-lg bg-orange-500/10">
@@ -202,7 +202,7 @@ export default function PortfolioPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
       >
-        <Card className="p-6 bg-black/50 border-orange-500/20">
+        <Card className="p-6" variant="glass" hover="lift">
           <div className="flex items-center justify-between mb-6">
             <h3 className="text-lg font-semibold">Recent Transactions</h3>
             <div className="p-2 rounded-lg bg-orange-500/10">

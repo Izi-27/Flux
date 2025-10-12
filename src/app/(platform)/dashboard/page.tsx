@@ -2,19 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { useTheme } from "@/components/providers/theme-provider";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend,
-} from "chart.js";
-import { Line } from "react-chartjs-2";
 import {
   Activity,
   TrendingUp,
@@ -23,89 +10,9 @@ import {
   ArrowUpRight,
   Zap,
 } from "lucide-react";
+import Link from "next/link";
+import { Chart } from "@/components/ui/chart";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Filler,
-  Legend
-);
-
-function Chart() {
-  const { theme } = useTheme();
-  const textColor = theme === "dark" ? "#9ca3af" : "#4b5563";
-  const gradientColor = theme === "dark" ? "#ff6b6b" : "#f97316";
-
-  const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        fill: true,
-        label: "Portfolio Value",
-        data: [400, 300, 600, 800, 500, 900],
-        borderColor: gradientColor,
-        backgroundColor: (context) => {
-          const ctx = context.chart.ctx;
-          const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-          gradient.addColorStop(0, `${gradientColor}50`);
-          gradient.addColorStop(1, `${gradientColor}00`);
-          return gradient;
-        },
-        tension: 0.4,
-        borderWidth: 3,
-        pointRadius: 2,
-      },
-    ],
-  };
-
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        mode: "index",
-        intersect: false,
-        backgroundColor: theme === "dark" ? "#1f2937" : "#ffffff",
-        titleColor: theme === "dark" ? "#ffffff" : "#000000",
-        bodyColor: theme === "dark" ? "#ffffff" : "#000000",
-        borderColor: theme === "dark" ? "#374151" : "#e5e7eb",
-        borderWidth: 1,
-      },
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false,
-        },
-        ticks: {
-          color: textColor,
-        },
-      },
-      y: {
-        grid: {
-          color: theme === "dark" ? "#374151" : "#e5e7eb",
-        },
-        ticks: {
-          color: textColor,
-        },
-      },
-    },
-    interaction: {
-      mode: "nearest",
-      axis: "x",
-      intersect: false,
-    },
-  };
-
-  return <Line options={options} data={data} />;
-}
 
 const statsCards = [
   {
@@ -174,7 +81,7 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
-              <Card className="group relative overflow-hidden p-6 bg-background border !border-[#0000001f] hover:border-current transition-all duration-300">
+              <Card className="group relative overflow-hidden p-6 bg-background hover:border-current transition-all duration-300 !border-[#0000001f]">
                 {/* Background gradient on hover */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${stat.bgGradient} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
@@ -210,13 +117,18 @@ export default function DashboardPage() {
             </motion.div>
           ))}
         </div>
+        
         {/* Main Chart */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4, duration: 0.5 }}
         >
-          <Card className="p-6 bg-background border-border">
+          <Card
+            variant="glass"
+            hover="lift"
+            className="group relative overflow-hidden p-6 bg-background"
+          >
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-bold text-foreground mb-1">
@@ -225,13 +137,13 @@ export default function DashboardPage() {
                 <p className="text-muted-foreground">Last 6 months overview</p>
               </div>
               <div className="flex gap-2">
-                <button className="px-8 py-2 border-2 border-orange-500 rounded-full text-black font-semibold text-sm hover:bg-orange-500/10 transition-all duration-300 cursor-pointer backdrop-blur-sm">
+                <button type="button" className="px-8 py-2 border-2 border-orange-500 rounded-full text-black font-semibold text-sm hover:bg-orange-500/10 transition-all duration-300 cursor-pointer backdrop-blur-sm">
                   6M
                 </button>
-                <button className="px-8 py-2 border-2 border-transparent rounded-full text-black font-semibold text-sm hover:bg-orange-500/10 hover:border-orange-500/50 transition-all duration-300 cursor-pointer backdrop-blur-sm">
+                <button type="button" className="px-8 py-2 border-2 border-transparent rounded-full text-black font-semibold text-sm hover:bg-orange-500/10 hover:border-orange-500/50 transition-all duration-300 cursor-pointer backdrop-blur-sm">
                   1Y
                 </button>
-                <button className="px-8 py-2 border-2 border-transparent rounded-full text-black font-semibold text-sm hover:bg-orange-500/10 hover:border-orange-500/50 transition-all duration-300 cursor-pointer backdrop-blur-sm">
+                <button type="button" className="px-8 py-2 border-2 border-transparent rounded-full text-black font-semibold text-sm hover:bg-orange-500/10 hover:border-orange-500/50 transition-all duration-300 cursor-pointer backdrop-blur-sm">
                   All
                 </button>
               </div>
@@ -250,14 +162,14 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.5 }}
           >
-            <Card className="p-6 bg-background border-border">
+            <Card className="p-6 bg-background border-border" hover="lift">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-foreground">
                   Recent Activity
                 </h2>
-                <button className="text-sm text-orange-500 hover:text-orange-600 font-medium">
+                <Link href={"/analytics"} className="text-sm text-orange-500 hover:text-orange-600 font-medium">
                   View All
-                </button>
+                </Link>
               </div>
               <div className="space-y-3">
                 {[1, 2, 3].map((_, i) => (
@@ -292,14 +204,14 @@ export default function DashboardPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6, duration: 0.5 }}
           >
-            <Card className="p-6 bg-background border-border">
+            <Card className="p-6 bg-background border-border" hover="lift">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-foreground">
                   Top Performing Agents
                 </h2>
-                <button className="text-sm text-orange-500 hover:text-orange-600 font-medium">
+                <Link href={"/analytics"}  className="text-sm text-orange-500 hover:text-orange-600 font-medium">
                   Manage
-                </button>
+                </Link>
               </div>
               <div className="space-y-3">
                 {[1, 2, 3].map((_, i) => (

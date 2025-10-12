@@ -120,7 +120,7 @@ export default function SettingsPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <Card className="p-6 bg-black/50 border-orange-500/20">
+        <Card className="p-6" variant="glass" hover="none">
           <h3 className="text-lg font-semibold mb-6">Contact Information</h3>
           <div className="grid gap-6 md:grid-cols-3">
             {contactMethods.map((method, index) => {
@@ -167,7 +167,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: sectionIndex * 0.1 }}
           >
-            <Card className="p-6 bg-black/50 border-orange-500/20">
+            <Card className="p-6" variant="glass" hover="none">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 rounded-lg bg-orange-500/10">
                   <Icon className="h-5 w-5 text-orange-500" />

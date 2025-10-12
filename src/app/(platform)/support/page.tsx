@@ -99,7 +99,7 @@ export default function SupportPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-6 bg-black/50 border-orange-500/20 hover:border-orange-500/40 transition-colors">
+              <Card className="p-6" variant="glass" hover="lift">
                 <div className="flex flex-col h-full">
                   <div className="p-3 rounded-lg bg-orange-500/10 w-fit">
                     <Icon className="h-6 w-6 text-orange-500" />
@@ -124,7 +124,7 @@ export default function SupportPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
       >
-        <Card className="p-6 bg-black/50 border-orange-500/20">
+        <Card className="p-6" variant="glass" hover="none">
           <h2 className="text-xl font-semibold mb-6">
             Frequently Asked Questions
           </h2>
@@ -155,7 +155,7 @@ export default function SupportPage() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.4 }}
       >
-        <Card className="p-6 bg-black/50 border-orange-500/20">
+        <Card className="p-6" variant="glass" hover="none">
           <h2 className="text-xl font-semibold mb-6">Additional Resources</h2>
           <div className="grid gap-4 md:grid-cols-3">
             {resources.map((resource, index) => {

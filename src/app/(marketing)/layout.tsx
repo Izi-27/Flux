@@ -37,7 +37,7 @@ export default function MarketingLayout({
               <ul className="mt-4 space-y-2 text-sm text-gray-600 dark:text-gray-400">
                 <li>
                   <Link
-                    href="/platform/dashboard"
+                    href="/dashboard"
                     className="hover:text-primary transition-colors"
                   >
                     Dashboard
@@ -45,7 +45,7 @@ export default function MarketingLayout({
                 </li>
                 <li>
                   <Link
-                    href="/platform/agents"
+                    href="/agents"
                     className="hover:text-primary transition-colors"
                   >
                     Agents
@@ -53,7 +53,7 @@ export default function MarketingLayout({
                 </li>
                 <li>
                   <Link
-                    href="/platform/analytics"
+                    href="/analytics"
                     className="hover:text-primary transition-colors"
                   >
                     Analytics

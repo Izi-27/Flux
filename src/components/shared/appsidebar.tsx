@@ -47,13 +47,13 @@ const AppSidebar: React.FC = () => {
       className={`
         fixed left-0 top-0 h-screen border-r z-50
         bg-background/80 backdrop-blur-xl transition-all duration-300 ease-in-out flex flex-col
-        border-border/20
+        border-border/20 border-orange-500/20
         ${isMobile && !openMobile ? "-translate-x-full" : "translate-x-0"}
         ${isMobile ? "w-64" : isCollapsed ? "w-[4.3rem]" : "w-64"}
       `}
     >
       {/* Logo and Brand */}
-      <div className="flex-none p-4 border-b border-orange-500/10">
+      <div className="flex-none p-4">
         <Link href="/" className="flex items-center gap-2">
           <div
             className={`
@@ -88,7 +88,7 @@ const AppSidebar: React.FC = () => {
                   ${isCollapsed && !isMobile ? "justify-center" : "px-4"}
                   ${
                     isActive
-                      ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg"
+                      ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg bold uppercase tracking-wider"
                       : "text-gray-300 hover:bg-orange-500/10 hover:text-orange-500"
                   }
                 `}

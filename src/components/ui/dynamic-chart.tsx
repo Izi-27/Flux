@@ -13,6 +13,7 @@ import {
   Filler,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { useTheme } from "../providers/theme-provider";
 
 ChartJS.register(
   CategoryScale,
@@ -32,6 +33,10 @@ interface DynamicChartProps {
 }
 
 export function DynamicChart({ data, labels, label }: DynamicChartProps) {
+
+  const { theme } = useTheme();
+  const textColor = theme === "dark" ? "#9ca3af" : "#4b5563";
+
   const chartData = {
     labels,
     datasets: [
@@ -63,18 +68,18 @@ export function DynamicChart({ data, labels, label }: DynamicChartProps) {
     scales: {
       x: {
         grid: {
-          color: "rgba(255, 255, 255, 0.1)",
+          color: "#ffffff19",
         },
         ticks: {
-          color: "rgba(255, 255, 255, 0.7)",
+          color: textColor,
         },
       },
       y: {
         grid: {
-          color: "rgba(255, 255, 255, 0.1)",
+          color: theme === "dark" ? "#374151" : "#e5e7eb",
         },
         ticks: {
-          color: "rgba(255, 255, 255, 0.7)",
+          color: textColor,
           callback: (value: number) => `$${value.toLocaleString()}`,
         },
       },
@@ -86,7 +91,7 @@ export function DynamicChart({ data, labels, label }: DynamicChartProps) {
       tooltip: {
         mode: "index" as const,
         intersect: false,
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        backgroundColor: "#000000cc",
         titleColor: "#f97316",
         bodyColor: "#ffffff",
         borderColor: "#f97316",

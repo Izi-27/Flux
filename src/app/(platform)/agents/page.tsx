@@ -40,14 +40,21 @@ export default function AgentsPage() {
   return (
     <div className="p-6">
       <div className="mb-8 flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-semibold">AI Agents</h1>
-          <p className="text-gray-400">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-8"
+        >
+          <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-orange-500 via-red-500 to-yellow-500 bg-clip-text text-transparent pb-1">
+            AI Agents
+          </div>
+          <p className="text-muted-foreground text-lg">
             Deploy and manage autonomous AI agents for yield optimization
           </p>
-        </div>
+        </motion.div>
 
-        <Button variant="gradient">Deploy New Agent</Button>
+        <Button variant="gradient" className="text-sm">Deploy New Agent</Button>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -60,7 +67,8 @@ export default function AgentsPage() {
           >
             <Card
               variant="glass"
-              className="group relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl hover:h-70"
+              hover="lift"
+              className="group relative overflow-hidden hover:h-70"
             >
               <div className="p-6">
                 <div className="mb-4 flex items-center justify-between">
@@ -122,7 +130,8 @@ export default function AgentsPage() {
         >
           <Card
             variant="glass"
-            className="flex min-h-[300px] cursor-pointer items-center justify-center p-6 transition-all hover:-translate-y-1 hover:border-primary-500/50 hover:shadow-xl"
+            hover="lift"
+            className="flex min-h-[300px] cursor-pointer items-center justify-center p-6 hover:border-primary-500/50"
           >
             <div className="text-center">
               <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-full border-2 border-dashed border-gray-400">

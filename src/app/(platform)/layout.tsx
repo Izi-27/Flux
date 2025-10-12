@@ -5,22 +5,22 @@ import AppSidebar from "@/components/shared/appsidebar";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { PageLoader } from "@/components/ui/page-loader";
 
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { PageLoader } from "@/components/ui/page-loader";
 
 function PlatformHeader() {
   const router = useRouter();
   const marketingLinks = [
-    { href: "/", label: "Home" },
+    // { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/how-it-works", label: "How It Works" },
     { href: "/pricing", label: "Pricing" },
   ];
 
   return (
-    <header className="sticky top-0 z-30 border-b border-orange-500/20 bg-background/80 backdrop-blur-xl transition-all duration-300">
+    <header className="sticky top-0 ml-10 z-30 bg-background/80 backdrop-blur-xl transition-all duration-300">
       <div className="flex h-16 items-center justify-between px-4">
         <nav className="hidden md:block">
           <ul className="flex items-center gap-6">
@@ -45,9 +45,10 @@ function PlatformHeader() {
     </header>
   );
 }
+
 function PlatformContent({ children }: { children: React.ReactNode }) {
-  const { state: sidebarState } = useSidebar();
-  const isCollapsed = sidebarState === "collapsed";
+  const { state } = useSidebar();
+  const isCollapsed = state  === "collapsed";
 
   return (
     <div className="min-h-screen w-full bg-background">
@@ -66,7 +67,7 @@ function PlatformContent({ children }: { children: React.ReactNode }) {
           <PlatformHeader />
 
           {/* Main content */}
-          <main className="flex-1 overflow-auto bg-background text-foreground transition-colors duration-300">
+          <main className="flex-1 overflow-auto bg-background text-foreground transition-colors duration-300 border-t border-orange-500/20">
             <div
               className={`
                 min-h-screen w-full px-4 py-6 

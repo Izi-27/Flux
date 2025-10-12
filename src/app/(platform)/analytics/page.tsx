@@ -33,47 +33,6 @@ const stats = [
 ];
 
 export default function AnalyticsPage() {
-  // Sample chart data
-  const chartData = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "TVL Growth",
-        data: [10, 15, 13, 18, 16, 21],
-        borderColor: "#f97316",
-        backgroundColor: "#f9731620",
-        tension: 0.4,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        grid: {
-          color: "#ffffff10",
-        },
-        ticks: {
-          color: "#666",
-        },
-      },
-      x: {
-        grid: {
-          color: "#ffffff10",
-        },
-        ticks: {
-          color: "#666",
-        },
-      },
-    },
-  };
 
   return (
     <div className="space-y-8">
@@ -87,7 +46,7 @@ export default function AnalyticsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className="p-6 bg-black/50 border-orange-500/20">
+              <Card className="p-6" variant="glass" hover="lift">
                 <div className="flex items-center gap-4">
                   <div className="p-3 rounded-lg bg-orange-500/10">
                     <Icon className="h-6 w-6 text-orange-500" />
@@ -108,7 +67,7 @@ export default function AnalyticsPage() {
         })}
       </div>
 
-      <Card className="p-6 bg-black/50 border-orange-500/20">
+      <Card className="p-6" variant="glass" hover="lift">
         <h3 className="text-lg font-semibold mb-4">TVL Growth</h3>
         <DynamicChart
           data={[10, 15, 13, 18, 16, 21, 25, 28, 22, 30]}

@@ -5,6 +5,7 @@ import { formatAddress } from "@/lib/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { User } from "lucide-react";
 
 interface ConnectWalletProps {
   onConnect?: () => void;
@@ -20,6 +21,7 @@ export function ConnectWallet({ onConnect }: ConnectWalletProps = {}) {
       router.push("/dashboard");
     }
   }, [onConnect, router]);
+  
   return (
     <ConnectButton.Custom>
       {({
@@ -33,11 +35,11 @@ export function ConnectWallet({ onConnect }: ConnectWalletProps = {}) {
         const ready = mounted;
         const connected = ready && account && chain;
 
-        useEffect(() => {
-          if (connected) {
-            handleConnect();
-          }
-        }, [connected, handleConnect]);
+        // useEffect(() => {
+        //   if (connected) {
+        //     handleConnect();
+        //   }
+        // }, [connected, handleConnect]);
 
         return (
           <div
@@ -83,7 +85,6 @@ export function ConnectWallet({ onConnect }: ConnectWalletProps = {}) {
                     {chain.hasIcon && (
                       <div className="mr-2 h-4 w-4">
                         {chain.iconUrl && (
-                          // eslint-disable-next-line @next/next/no-img-element
                           <img
                             alt={chain.name ?? "Chain icon"}
                             src={chain.iconUrl}
@@ -95,15 +96,8 @@ export function ConnectWallet({ onConnect }: ConnectWalletProps = {}) {
                     {chain.name}
                   </Button>
 
-                  <Button onClick={openAccountModal} variant="outline" className="hover:animate-pulse px-8 tracking-wider cursor-pointer bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold shadow-md shadow-orange-500/50">
-                    {account.ensAvatar && (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img
-                        alt="ENS Avatar"
-                        src={account.ensAvatar}
-                        className="mr-2 h-4 w-4 rounded-full object-cover"
-                      />
-                    )}
+                  <Button onClick={openAccountModal} variant="outline" className="hover:animate-pulse px-8 tracking-wider cursor-pointer bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold shadow-md shadow-orange-500/50 flex gap-2">
+                    <User className="w-5 h-5" />
                     {account.ensName ?? formatAddress(account.address)}
                   </Button>
                 </div>

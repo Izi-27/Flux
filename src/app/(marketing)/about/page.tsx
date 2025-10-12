@@ -79,7 +79,3 @@ export default function AboutPage() {
     </div>
   );
 }
-// 1. there is controversy in the layouts of the landing page and the layout of the marketing group
-// 2. work on the design of all pages to have this feel in the images, the polyphoric feel in the first pasted image and the light theme in the second pasted image
-// 3. the colors to be used for this app is red, yellow, orange not deep blue that was used in the background 
-// 4. their are new components motioncomponent, background and theme-toggle implement them 
