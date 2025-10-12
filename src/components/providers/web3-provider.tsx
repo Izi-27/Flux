@@ -9,13 +9,8 @@ import { wagmiConfig } from "@/config/wagmi";
 import { customTheme } from "@/config/rainbowkit";
 
 export function Web3Provider({ children }: { children: React.ReactNode }) {
-  const queryClient = new QueryClient();
-  const [config] = useState(() =>
-    createConfig({
-      ...wagmiConfig,
-      ssr: true, // server-side rendering
-    })
-  );
+  const [queryClient] = useState(() => new QueryClient());
+  const [config] = useState(() => createConfig(wagmiConfig));
 
   return (
     <WagmiProvider config={config}>

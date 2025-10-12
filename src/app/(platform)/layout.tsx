@@ -2,7 +2,92 @@
 
 import { ConnectWallet } from "@/components/web3/connect-wallet";
 import AppSidebar from "@/components/shared/appsidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { PageLoader } from "@/components/ui/page-loader";
+
+function PlatformHeader() {
+  const router = useRouter();
+  const marketingLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/how-it-works", label: "How It Works" },
+    { href: "/pricing", label: "Pricing" },
+  ];
+
+  return (
+    <header className="sticky top-0 z-30 border-b border-orange-500/20 bg-background/80 backdrop-blur-xl transition-all duration-300">
+      <div className="flex h-16 items-center justify-between px-4">
+        <nav className="hidden md:block">
+          <ul className="flex items-center gap-6">
+            {marketingLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-orange-500"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <ThemeToggle />
+          <ConnectWallet onConnect={() => router.push("/dashboard")} />
+        </div>
+      </div>
+    </header>
+  );
+}
+function PlatformContent({ children }: { children: React.ReactNode }) {
+  const { state: sidebarState } = useSidebar();
+  const isCollapsed = sidebarState === "collapsed";
+
+  return (
+    <div className="min-h-screen w-full bg-background">
+      <PageLoader />
+      <div className="flex">
+        <AppSidebar />
+
+        <div
+          className={`
+            flex-1 flex flex-col overflow-hidden
+            transition-all duration-300 ease-in-out
+            ${isCollapsed ? "ml-[4.3rem]" : "ml-64"}
+          `}
+        >
+          {/* Header */}
+          <PlatformHeader />
+
+          {/* Main content */}
+          <main className="flex-1 overflow-auto bg-background text-foreground transition-colors duration-300">
+            <div
+              className={`
+                min-h-screen w-full px-4 py-6 
+                transition-all duration-300 ease-in-out 
+                sm:px-6 lg:px-8
+                ${
+                  isCollapsed
+                    ? "max-w-[calc(100vw-4.3rem)]"
+                    : "max-w-[calc(100vw-16rem)]"
+                }
+              `}
+            >
+              {children}
+            </div>
+          </main>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PlatformLayout({
   children,
 }: {
@@ -10,25 +95,7 @@ export default function PlatformLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="min-h-screen bg-dark-900">
-        <AppSidebar />
-
-        {/* Header */}
-        <header className="fixed top-0 right-0 left-64 z-30 border-b border-white/10 bg-black/50 backdrop-blur-xl">
-          <div className="flex h-16 items-center justify-end gap-4 px-4">
-            <div className="flex items-center gap-4">
-              <ConnectWallet />
-            </div>
-          </div>
-        </header>
-
-        {/* Main content */}
-        <main className="pl-64 pt-16">
-          <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            {children}
-          </div>
-        </main>
-      </div>
+      <PlatformContent>{children}</PlatformContent>
     </SidebarProvider>
   );
 }

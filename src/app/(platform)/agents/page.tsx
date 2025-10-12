@@ -60,7 +60,7 @@ export default function AgentsPage() {
           >
             <Card
               variant="glass"
-              className="group relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl"
+              className="group relative overflow-hidden transition-all hover:-translate-y-1 hover:shadow-xl hover:h-70"
             >
               <div className="p-6">
                 <div className="mb-4 flex items-center justify-between">
@@ -104,7 +104,7 @@ export default function AgentsPage() {
                   ))}
                 </div>
 
-                <div className="absolute inset-x-0 bottom-0 flex translate-y-full border-t border-white/10 bg-white/5 p-4 transition-transform group-hover:translate-y-0">
+                <div className="absolute inset-x-0 bottom-0 flex translate-y-full border-t border-white/10 bg-white/5 p-4 group-hover:translate-y-0">
                   <Button variant="gradient" className="w-full">
                     Manage Agent
                   </Button>

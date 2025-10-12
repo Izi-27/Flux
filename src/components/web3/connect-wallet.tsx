@@ -3,8 +3,23 @@
 import { Button } from "@/components/ui/button";
 import { formatAddress } from "@/lib/utils";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
 
-export function ConnectWallet() {
+interface ConnectWalletProps {
+  onConnect?: () => void;
+}
+
+export function ConnectWallet({ onConnect }: ConnectWalletProps = {}) {
+  const router = useRouter();
+
+  const handleConnect = useCallback(() => {
+    if (onConnect) {
+      onConnect();
+    } else {
+      router.push("/dashboard");
+    }
+  }, [onConnect, router]);
   return (
     <ConnectButton.Custom>
       {({
@@ -17,6 +32,12 @@ export function ConnectWallet() {
       }) => {
         const ready = mounted;
         const connected = ready && account && chain;
+
+        useEffect(() => {
+          if (connected) {
+            handleConnect();
+          }
+        }, [connected, handleConnect]);
 
         return (
           <div
@@ -32,10 +53,12 @@ export function ConnectWallet() {
             {(() => {
               if (!connected) {
                 return (
-                  <Button 
-                    onClick={openConnectModal} 
+                  <Button
+                    onClick={() => {
+                      openConnectModal();
+                    }}
                     variant="gradient"
-                    className="hover:animate-pulse"
+                    className="hover:animate-pulse px-8 tracking-wider cursor-pointer bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold shadow-md shadow-orange-500/50"
                   >
                     Connect Wallet
                   </Button>
@@ -44,7 +67,7 @@ export function ConnectWallet() {
 
               if (chain.unsupported) {
                 return (
-                  <Button onClick={openChainModal} variant="destructive">
+                  <Button onClick={openChainModal} variant="destructive" className="hover:animate-pulse px-8 tracking-wider cursor-pointer bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold shadow-md shadow-orange-500/50">
                     Wrong network
                   </Button>
                 );
@@ -55,7 +78,7 @@ export function ConnectWallet() {
                   <Button
                     onClick={openChainModal}
                     variant="outline"
-                    className="hidden sm:flex"
+                    className="hidden sm:flex hover:animate-pulse px-8 tracking-wider cursor-pointer bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold shadow-md shadow-orange-500/50"
                   >
                     {chain.hasIcon && (
                       <div className="mr-2 h-4 w-4">
@@ -72,13 +95,13 @@ export function ConnectWallet() {
                     {chain.name}
                   </Button>
 
-                  <Button onClick={openAccountModal} variant="outline">
+                  <Button onClick={openAccountModal} variant="outline" className="hover:animate-pulse px-8 tracking-wider cursor-pointer bg-gradient-to-r from-orange-500 to-red-500 text-white text-sm font-semibold shadow-md shadow-orange-500/50">
                     {account.ensAvatar && (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
                         alt="ENS Avatar"
                         src={account.ensAvatar}
-                        className="mr-2 h-4 w-4 rounded-full"
+                        className="mr-2 h-4 w-4 rounded-full object-cover"
                       />
                     )}
                     {account.ensName ?? formatAddress(account.address)}

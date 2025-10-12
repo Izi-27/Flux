@@ -8,22 +8,13 @@ import {
   Users,
   FileText,
   Briefcase,
-  DollarSign,
   Settings,
   HelpCircle,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  useSidebar,
-} from "@/components/ui/sidebar";
+import { useSidebar } from "@/components/ui/sidebar";
+import { useTheme } from "@/components/providers/theme-provider";
 
 interface SidebarItem {
   title: string;
@@ -35,6 +26,7 @@ interface SidebarItem {
 const AppSidebar: React.FC = () => {
   const pathname = usePathname();
   const { state, toggleSidebar, isMobile, openMobile } = useSidebar();
+  const { theme } = useTheme();
   const isCollapsed = state === "collapsed";
 
   const mainNavItems: SidebarItem[] = [
@@ -50,126 +42,128 @@ const AppSidebar: React.FC = () => {
   ];
 
   return (
-    <Sidebar
-      side="left"
-      variant="floating"
-      collapsible="icon"
+    <aside
       data-sidebar="sidebar"
       className={`
-        fixed left-0 top-16 h-[calc(100vh-4rem)] bg-[#1a1d29] border-r border-gray-800 z-40
-        transition-all duration-300 ease-in-out
+        fixed left-0 top-0 h-screen border-r z-50
+        bg-background/80 backdrop-blur-xl transition-all duration-300 ease-in-out flex flex-col
+        border-border/20
         ${isMobile && !openMobile ? "-translate-x-full" : "translate-x-0"}
         ${isMobile ? "w-64" : isCollapsed ? "w-[4.3rem]" : "w-64"}
       `}
     >
-      {/* Sidebar Header with Toggle - Desktop Only */}
-      {!isMobile && (
-        <SidebarHeader className="relative p-0">
-          <button
-            type="button"
-            onClick={toggleSidebar}
-            className="absolute -right-3 top-6 bg-[#252836] border border-gray-700 rounded-full p-1 hover:bg-[#2a2d3a] transition-colors z-10"
+      {/* Logo and Brand */}
+      <div className="flex-none p-4 border-b border-orange-500/10">
+        <Link href="/" className="flex items-center gap-2">
+          <div
+            className={`
+            relative h-8 w-8 rounded-lg bg-gradient-to-br from-orange-500 to-red-500
+            flex items-center justify-center text-white font-bold text-xl
+            ${isCollapsed && !isMobile ? "mx-auto" : ""}
+          `}
           >
-            {isCollapsed ? (
-              <ChevronRight className="h-4 w-4 text-gray-400" />
-            ) : (
-              <ChevronLeft className="h-4 w-4 text-gray-400" />
-            )}
-          </button>
-        </SidebarHeader>
-      )}
+            F
+          </div>
+          {(!isCollapsed || isMobile) && (
+            <span className="text-xl font-bold bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              FLUX
+            </span>
+          )}
+        </Link>
+      </div>
 
       {/* Main Navigation */}
-      <SidebarContent className="px-3 py-6 scrollbar-custom">
-        <SidebarMenu className="space-y-2">
+      <div className="flex-1 overflow-y-auto px-3 py-6 scrollbar-custom">
+        <nav className="space-y-2">
           {mainNavItems.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
 
             return (
-              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive}
-                  className={`
-                    w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-medium
-                    ${
-                      isActive
-                        ? "bg-blue-600 text-white shadow-lg"
-                        : "text-gray-300 hover:bg-[#252836] hover:text-white"
-                    }
-                    ${isCollapsed && !isMobile ? "justify-center px-0" : ""}
-                  `}
-                >
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-3 w-full"
-                  >
-                    <Icon
-                      className={`flex-shrink-0 ${
-                        isCollapsed && !isMobile ? "h-5 w-5" : "h-5 w-5"
-                      }`}
-                    />
-                    {(!isCollapsed || isMobile) && (
-                      <>
-                        <span className="font-medium">{item.title}</span>
-                        {item.badge && (
-                          <span className="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">
-                            {item.badge}
-                          </span>
-                        )}
-                      </>
-                    )}
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+                  group flex items-center gap-3 rounded-lg p-2 transition-all duration-200
+                  ${isCollapsed && !isMobile ? "justify-center" : "px-4"}
+                  ${
+                    isActive
+                      ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg"
+                      : "text-gray-300 hover:bg-orange-500/10 hover:text-orange-500"
+                  }
+                `}
+              >
+                <Icon className="h-5 w-5 flex-shrink-0" />
+                {(!isCollapsed || isMobile) && (
+                  <span className="text-sm font-medium">{item.title}</span>
+                )}
+                {item.badge && (!isCollapsed || isMobile) && (
+                  <span className="ml-auto text-xs px-2 py-0.5 rounded-full bg-orange-500 text-white">
+                    {item.badge}
+                  </span>
+                )}
+              </Link>
             );
           })}
-        </SidebarMenu>
-      </SidebarContent>
+        </nav>
+      </div>
 
-      {/* Bottom Navigation */}
-      <SidebarFooter className="border-t border-gray-800 px-3 py-4 mt-auto">
-        <SidebarMenu className="space-y-2">
+      {/* Bottom Section */}
+      <div className="flex-none px-3 pb-4">
+        {/* Bottom Navigation */}
+        <nav className="space-y-2 border-t border-orange-500/10 pt-4">
           {bottomNavItems.map((item) => {
             const isActive = pathname === item.href;
             const Icon = item.icon;
 
             return (
-              <SidebarMenuItem key={item.href}>
-                <SidebarMenuButton
-                  asChild
-                  isActive={isActive}
-                  className={`
-                    w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm font-medium
-                    ${
-                      isActive
-                        ? "bg-blue-600 text-white shadow-lg"
-                        : "text-gray-300 hover:bg-[#252836] hover:text-white"
-                    }
-                    ${isCollapsed && !isMobile ? "justify-center px-0" : ""}
-                  `}
-                >
-                  <Link
-                    href={item.href}
-                    className="flex items-center gap-3 w-full"
-                  >
-                    <Icon
-                      className={`flex-shrink-0 ${
-                        isCollapsed && !isMobile ? "h-5 w-5" : "h-5 w-5"
-                      }`}
-                    />
-                    {(!isCollapsed || isMobile) && (
-                      <span className="font-medium">{item.title}</span>
-                    )}
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+                  group flex items-center gap-3 rounded-lg p-2 transition-all duration-200
+                  ${isCollapsed && !isMobile ? "justify-center" : "px-4"}
+                  ${
+                    isActive
+                      ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-lg"
+                      : "text-gray-300 hover:bg-orange-500/10 hover:text-orange-500"
+                  }
+                `}
+              >
+                <Icon className="h-5 w-5 flex-shrink-0" />
+                {(!isCollapsed || isMobile) && (
+                  <span className="text-sm font-medium">{item.title}</span>
+                )}
+              </Link>
             );
           })}
-        </SidebarMenu>
-      </SidebarFooter>
-    </Sidebar>
+
+          {/* Collapse Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleSidebar();
+            }}
+            className={`
+              w-full flex items-center gap-3 rounded-lg p-2 transition-all duration-200 mt-4
+              ${isCollapsed && !isMobile ? "justify-center" : "px-4"}
+              text-black-300 hover:bg-orange-500/10 hover:text-orange-500
+            `}
+          >
+            {isCollapsed ? (
+              <ChevronRight className="h-5 w-5" />
+            ) : (
+              <>
+                <ChevronLeft className="h-5 w-5" />
+                <span className="text-sm font-medium">Collapse</span>
+              </>
+            )}
+          </button>
+        </nav>
+      </div>
+    </aside>
   );
 };
 

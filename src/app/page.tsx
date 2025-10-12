@@ -36,6 +36,7 @@ const WaveBackground = dynamic(
   }
 );
 import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { ConnectWallet } from "@/components/web3/connect-wallet";
 
 export default function MarketingPage() {
   return (
@@ -56,7 +57,7 @@ export default function MarketingPage() {
           <div className="text-2xl font-bold bg-gradient-to-r from-red-500 to-orange-500 bg-clip-text text-transparent">
             FLUX
           </div>
-          <ThemeToggle />
+          <ConnectWallet />
         </div>
       </header>
 

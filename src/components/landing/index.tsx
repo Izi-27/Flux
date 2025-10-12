@@ -1,3 +1,4 @@
+// landing page design
 "use client";
 
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -6,15 +7,15 @@ import { FloatingOrbs, WaveBackground } from "@/components/ui/background";
 
 function Hero() {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 1000], [0, 150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+  const y = useTransform(scrollY, [0, 2000], [0, 150]); //
+  const opacity = useTransform(scrollY, [0, 800], [1, 0]); 
   const scale = useTransform(scrollY, [0, 300], [1, 0.95]);
   const rotate = useTransform(scrollY, [0, 1000], [0, -5]);
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-background text-foreground transition-colors duration-300">
       <div className="absolute inset-0 z-0">
-        <WaveBackground />
+        {/* <WaveBackground /> */}
         <FloatingOrbs />
       </div>
       <motion.div
@@ -27,7 +28,7 @@ function Hero() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.h1
-            className="mb-6 text-6xl md:text-8xl font-bold bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent leading-tight"
+            className="text-6xl md:text-8xl font-bold bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 bg-clip-text text-transparent leading-tight"
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{
@@ -59,12 +60,13 @@ function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6, duration: 0.8 }}
-          className="flex gap-4 justify-center flex-wrap"
+          className="flex gap-4 justify-center items-center flex-wrap"
         >
           <ConnectWallet />
           <button
             type="button"
-            className="px-8 py-4 border-2 border-orange-500 rounded-full text-white font-semibold text-lg hover:bg-orange-500/10 transition-all duration-300"
+            onClick={() => window.location.href = '/dashboard'}
+            className="px-8 py-2 border-2 border-orange-500 rounded-full text-white font-semibold text-lg hover:bg-orange-500/10 transition-all duration-300 cursor-pointer"
           >
             Learn More
           </button>
@@ -226,7 +228,8 @@ function CTA() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-10 py-5 bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 rounded-full text-white font-bold text-xl shadow-2xl shadow-orange-500/50 relative z-10"
+            onClick={() => window.location.href = '/dashboard'}
+            className="px-10 py-5 bg-gradient-to-r from-red-700 via-orange-700 to-yellow-700 rounded-full text-white font-bold text-xl shadow-md shadow-orange-500/50 relative z-10 cursor-pointer"
           >
             Get Started Now
           </motion.button>
