@@ -15,7 +15,7 @@ function Hero() {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-background text-foreground transition-colors duration-300">
       <div className="absolute inset-0 z-0">
-        {/* <WaveBackground /> */}
+        <WaveBackground />
         <FloatingOrbs />
       </div>
       <motion.div
