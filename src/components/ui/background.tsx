@@ -86,52 +86,218 @@ export function WaveBackground() {
 }
 
 // Floating Orbs
+// export function FloatingOrbs() {
+//   const orbs = [...Array(12)].map(() => ({
+//     x: Math.random() * 100,
+//     y: Math.random() * 100,
+//     size: Math.random() * 300 + 100,
+//     duration: Math.random() * 20 + 10,
+//     delay: Math.random() * 5,
+//     colorIndex: Math.floor(Math.random() * 3)
+//   }));
+
+//   return (
+//     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+//       {orbs.map((orb, i) => {
+//         const color = orb.colorIndex === 0 ? '#ef44444c' :
+//                      orb.colorIndex === 1 ? '#f973164c' :
+//                                           '#eab3084c';
+//         return (
+//           <motion.div
+//             key={i}
+//             className="absolute rounded-full blur-3xl"
+//             initial={{ 
+//               x: `${orb.x}%`,
+//               y: `${orb.y}%`,
+//               opacity: 0,
+//               scale: 0.5
+//             }}
+//             animate={{ 
+//               x: [`${orb.x}%`, `${(orb.x + 20) % 100}%`, `${orb.x}%`],
+//               y: [`${orb.y}%`, `${(orb.y + 20) % 100}%`, `${orb.y}%`],
+//               opacity: [0.2, 0.3, 0.2],
+//               scale: [1, 1.2, 1]
+//             }}
+//             transition={{ 
+//               duration: orb.duration,
+//               delay: orb.delay,
+//               repeat: Infinity,
+//               ease: "easeInOut"
+//             }}
+//             style={{
+//               width: orb.size,
+//               height: orb.size,
+//               background: `radial-gradient(circle, ${color} 0%, transparent 70%)`
+//             }}
+//           />
+//         );
+//       })}
+//     </div>
+//   );
+// }
+
+// 3D Geometric Background
 export function FloatingOrbs() {
-  const orbs = [...Array(12)].map(() => ({
+  const shapes = [...Array(8)].map(() => ({
     x: Math.random() * 100,
     y: Math.random() * 100,
-    size: Math.random() * 300 + 100,
-    duration: Math.random() * 20 + 10,
+    size: Math.random() * 200 + 150,
+    duration: Math.random() * 25 + 15,
     delay: Math.random() * 5,
-    colorIndex: Math.floor(Math.random() * 3)
+    rotationSpeed: Math.random() * 20 + 10,
+    shapeType: Math.floor(Math.random() * 3), // 0: cube, 1: pyramid, 2: sphere
   }));
 
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-      {orbs.map((orb, i) => {
-        const color = orb.colorIndex === 0 ? 'rgba(239, 68, 68, 0.3)' :
-                     orb.colorIndex === 1 ? 'rgba(249, 115, 22, 0.3)' :
-                                          'rgba(234, 179, 8, 0.3)';
-        return (
-          <motion.div
-            key={i}
-            className="absolute rounded-full blur-3xl"
-            initial={{ 
-              x: `${orb.x}%`,
-              y: `${orb.y}%`,
-              opacity: 0,
-              scale: 0.5
-            }}
-            animate={{ 
-              x: [`${orb.x}%`, `${(orb.x + 20) % 100}%`, `${orb.x}%`],
-              y: [`${orb.y}%`, `${(orb.y + 20) % 100}%`, `${orb.y}%`],
-              opacity: [0.2, 0.3, 0.2],
-              scale: [1, 1.2, 1]
-            }}
-            transition={{ 
-              duration: orb.duration,
-              delay: orb.delay,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            style={{
-              width: orb.size,
-              height: orb.size,
-              background: `radial-gradient(circle, ${color} 0%, transparent 70%)`
-            }}
-          />
-        );
-      })}
+      {/* Ambient gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-orange-500/5 via-transparent to-red-500/5" />
+      
+      {shapes.map((shape, i) => (
+        <motion.div
+          key={i}
+          className="absolute"
+          style={{
+            left: `${shape.x}%`,
+            top: `${shape.y}%`,
+            width: shape.size,
+            height: shape.size,
+            perspective: '1000px',
+          }}
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{
+            opacity: [0.15, 0.25, 0.15],
+            scale: [1, 1.1, 1],
+            x: [0, 50, 0],
+            y: [0, -30, 0],
+          }}
+          transition={{
+            duration: shape.duration,
+            delay: shape.delay,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          {shape.shapeType === 0 ? (
+            // 3D Cube
+            <motion.div
+              className="w-full h-full"
+              style={{ transformStyle: 'preserve-3d' }}
+              animate={{
+                rotateX: [0, 360],
+                rotateY: [0, 360],
+              }}
+              transition={{
+                duration: shape.rotationSpeed,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              {[...Array(6)].map((_, faceIndex) => (
+                <div
+                  key={faceIndex}
+                  className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-500/30 backdrop-blur-sm"
+                  style={{
+                    transform: 
+                      faceIndex === 0 ? `rotateY(0deg) translateZ(${shape.size/2}px)` :
+                      faceIndex === 1 ? `rotateY(180deg) translateZ(${shape.size/2}px)` :
+                      faceIndex === 2 ? `rotateY(90deg) translateZ(${shape.size/2}px)` :
+                      faceIndex === 3 ? `rotateY(-90deg) translateZ(${shape.size/2}px)` :
+                      faceIndex === 4 ? `rotateX(90deg) translateZ(${shape.size/2}px)` :
+                      `rotateX(-90deg) translateZ(${shape.size/2}px)`,
+                  }}
+                />
+              ))}
+            </motion.div>
+          ) : shape.shapeType === 1 ? (
+            // 3D Pyramid
+            <motion.div
+              className="w-full h-full"
+              style={{ transformStyle: 'preserve-3d' }}
+              animate={{
+                rotateX: [0, 360],
+                rotateY: [0, 360],
+              }}
+              transition={{
+                duration: shape.rotationSpeed,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              {[...Array(4)].map((_, faceIndex) => (
+                <div
+                  key={faceIndex}
+                  className="absolute inset-0 bg-gradient-to-t from-red-500/20 to-orange-500/10 border border-red-500/30 backdrop-blur-sm"
+                  style={{
+                    clipPath: faceIndex < 3 ? 'polygon(50% 0%, 0% 100%, 100% 100%)' : 'polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)',
+                    transform: 
+                      faceIndex === 0 ? `rotateY(0deg) translateZ(${shape.size/4}px)` :
+                      faceIndex === 1 ? `rotateY(120deg) translateZ(${shape.size/4}px)` :
+                      faceIndex === 2 ? `rotateY(240deg) translateZ(${shape.size/4}px)` :
+                      `rotateX(90deg) translateZ(${shape.size/2}px)`,
+                  }}
+                />
+              ))}
+            </motion.div>
+          ) : (
+            // Glowing Sphere with rings
+            <motion.div
+              className="w-full h-full rounded-full relative"
+              style={{ transformStyle: 'preserve-3d' }}
+              animate={{
+                rotateX: [0, 360],
+                rotateY: [0, 360],
+              }}
+              transition={{
+                duration: shape.rotationSpeed,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            >
+              <div 
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: 'radial-gradient(circle at 30% 30%, rgba(249, 115, 22, 0.3), rgba(239, 68, 68, 0.2), transparent 70%)',
+                  boxShadow: '0 0 60px rgba(249, 115, 22, 0.3), inset 0 0 60px rgba(239, 68, 68, 0.2)',
+                }}
+              />
+              {/* Orbital rings */}
+              {[...Array(3)].map((_, ringIndex) => (
+                <div
+                  key={ringIndex}
+                  className="absolute inset-0 rounded-full border-2 border-orange-500/10"
+                  style={{
+                    transform: `rotateY(${ringIndex * 60}deg) rotateX(75deg)`,
+                    transformStyle: 'preserve-3d',
+                  }}
+                />
+              ))}
+            </motion.div>
+          )}
+        </motion.div>
+      ))}
+      
+      {/* Floating particles */}
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={`particle-${i}`}
+          className="absolute w-1 h-1 rounded-full bg-orange-500/40"
+          initial={{
+            x: Math.random() * 100 + '%',
+            y: Math.random() * 100 + '%',
+          }}
+          animate={{
+            y: [null, `${Math.random() * -100}%`],
+            opacity: [0.4, 0, 0.4],
+          }}
+          transition={{
+            duration: Math.random() * 10 + 10,
+            repeat: Infinity,
+            ease: "linear",
+            delay: Math.random() * 5,
+          }}
+        />
+      ))}
     </div>
   );
 }

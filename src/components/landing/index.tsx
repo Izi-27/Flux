@@ -3,7 +3,7 @@
 
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ConnectWallet } from "@/components/web3/connect-wallet";
-import { FloatingOrbs, WaveBackground } from "@/components/ui/background";
+import { WaveBackground } from "@/components/ui/background";
 
 function Hero() {
   const { scrollY } = useScroll();
@@ -16,7 +16,6 @@ function Hero() {
     <section className="relative min-h-screen flex items-center overflow-hidden bg-background text-foreground transition-colors duration-300">
       <div className="absolute inset-0 z-0">
         <WaveBackground />
-        <FloatingOrbs />
       </div>
       <motion.div
         style={{ y, opacity, scale, rotateX: rotate }}

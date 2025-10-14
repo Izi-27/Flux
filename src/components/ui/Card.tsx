@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 
 const cardVariants = cva(
-  "rounded-lg bg-card border !border-orange-500/20 text-card-foreground transition-all",
+  "rounded-lg bg-card border !border-orange-500/20 text-card-foreground transition-all backdrop-blur-md",
   {
     variants: {
       variant: {
